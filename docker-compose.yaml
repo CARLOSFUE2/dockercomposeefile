@@ -1,0 +1,45 @@
+version: '3'
+services:
+  strapi:
+    image: strapi/strapi
+    volumes:
+      - ./:/srv/app
+    ports:
+      - '1337:1337'
+
+la de nuxt aqui abajo
+
+version: "3"
+services:
+  front:
+    image: node:7-slim
+    working_dir: "/var/www/app"
+    environment:
+      - HOST=0.0.0.0
+    ports:
+      - "80:3000"
+    volumes:
+      - ./app:/var/www/app
+    command: bash -c "npm install && npm run dev"
+
+
+una de nuxt con nginx
+version: "3"
+
+services:
+  nuxt:
+    build: ./app/
+    restart: always
+    ports:
+      - "3000:3000"
+    command:
+      "npm run start"
+
+  nginx:
+    image: nginx:1.19
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    depends_on:
+      - nuxt
